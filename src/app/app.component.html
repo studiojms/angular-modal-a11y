@@ -7,27 +7,74 @@
 </button>
 
 <ng-template #modal>
-  <div class="form-field">
-    <label for="first-name">First Name</label>
-    <input type="text" id="first-name" [(value)]="firstName" />
-  </div>
-  <div class="form-field">
-    <label for="last-name">Last Name</label>
-    <input type="text" id="last-name" />
-  </div>
-  <div class="form-field">
-    <label for="age">Age</label>
-    <input type="text" id="age" />
-  </div>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-field">
+      <label for="first-name">First Name</label>
+      <input
+        type="text"
+        id="first-name"
+        aria-describedby="fistName-error"
+        formControlName="firstName"
+        [attr.aria-invalid]="form.get('firstName').invalid"
+      />
+      <span
+        id="fistName-error"
+        class="validation-error"
+        *ngIf="form.get('firstName')?.errors?.required"
+      >
+        First name is required
+      </span>
+    </div>
+    <div class="form-field">
+      <label for="last-name">Last Name</label>
+      <input
+        type="text"
+        id="last-name"
+        aria-describedby="lastName-error"
+        formControlName="lastName"
+        [attr.aria-invalid]="form.get('lastName').invalid"
+      />
+      <span
+        id="lastName-error"
+        class="validation-error"
+        *ngIf="form.get('lastName')?.errors?.required"
+      >
+        Last name is required
+      </span>
+    </div>
+    <div class="form-field">
+      <label for="age">Age</label>
+      <input
+        type="text"
+        id="age"
+        aria-describedby="age-error"
+        formControlName="age"
+        [attr.aria-invalid]="form.get('age').invalid"
+      />
+      <span
+        id="age-error"
+        class="validation-error"
+        *ngIf="form.get('age')?.errors?.required"
+      >
+        Age is required
+      </span>
+    </div>
 
-  <div class="button-group">
-    <button type="button" class="button button-primary">Submit</button>
-    <button
-      type="button"
-      class="button button-secondary"
-      (click)="modalRef.close()"
-    >
-      Cancel
-    </button>
-  </div>
+    <div class="button-group">
+      <button
+        type="submit"
+        [attr.aria-disabled]="form.invalid"
+        class="button button-primary"
+      >
+        Submit
+      </button>
+      <button
+        type="button"
+        class="button button-secondary"
+        (click)="modalRef.close()"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
 </ng-template>
